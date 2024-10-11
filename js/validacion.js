@@ -1,24 +1,22 @@
-
-// me robe este js en boostrap, dile a chat gpt que te lo desglose y te lo explique bien para que lo entiendas
-
 const form = document.querySelector('.needs-validation');
 const checkbox = document.getElementById('terminos'); // para el checkbox
 const botonTerminos = form.querySelector('[data-bs-target="#modalTerminos"]'); // para el boton de terminos
-const errorTerminos = document.getElementById('errorterminos'); // para el maldito mensaje de error
 const mostarerrorterminos = document.getElementById('mensajecheckbox')
+const password1 = document.getElementById('password1');
+const password2 = document.getElementById('password2');
 
 document.addEventListener("DOMContentLoaded", () => {
 
   // cuando el formulario escuche un submit del boton registrarme
-  form.addEventListener('submit', event => {
+  form.addEventListener('submit', (event) => {
     // evita el envio si no es valido el formulario
     if (!form.checkValidity()) {
       event.preventDefault();
       event.stopPropagation();
     }
     //aqui irian las funciones
-    validaCheckbox()
-    validaCheckboxTiempoReal()
+    validaCheckbox();
+    validaCheckboxTiempoReal();
     
     
     // aplica los estilos de validacion de bootstrap
@@ -27,8 +25,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
+  password1.addEventListener('input', validaPasswords);
+  password2.addEventListener('input', validaPasswords);
+  validaCheckboxTiempoReal();
 
-// aqui van las funciones....lo demas te toca a ti amiga XD
+  //Validacion en tiempo real
+function validaPasswords() {
+  if (password1.value === '' || password1.value.length < 6) {
+    password1.setCustomValidity('La contraseña debe tener al menos 6 caracteres.');
+  } else {
+    password1.setCustomValidity('');
+  }
+
+  if (password2.value !== password1.value) {
+    password2.setCustomValidity('Las contraseñas no coinciden.');
+  } else {
+    password2.setCustomValidity('');
+  }
+}
 
 
 function validaCheckbox() {

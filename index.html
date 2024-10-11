@@ -36,7 +36,7 @@
 
             <div class="col-sm-6">
               <label for="password1" class="form-label">Contraseña</label>
-              <input type="password" class="form-control" id="password1" required>
+              <input type="password" class="form-control" id="password1" required minlength="6">
               <div class="invalid-feedback">Por favor, introduce una contraseña.</div>
             </div>
 
@@ -50,12 +50,9 @@
             <div class="col-sm-12">
               <button type="button" class="btn btn-link ps-0" data-bs-toggle="modal"
                 data-bs-target="#modalTerminos">Términos del servicio</button>
-                <div class="d-inline" id="mensajecheckbox">
-
-                </div>
+                <div class="d-inline" id="mensajecheckbox"></div>
             </div>
 
-           
             <div class="modal fade" id="modalTerminos" tabindex="-1" aria-hidden="true">
               <div class="modal-dialog">
                 <div class="modal-content">
