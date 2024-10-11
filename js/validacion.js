@@ -1,59 +1,44 @@
-document.addEventListener("DOMContentLoaded",()=>{
+document.addEventListener("DOMContentLoaded", () => {
 
-    const form = document.getElementById('formulario'); 
-    const password1 = document.getElementById('password1');
-    const password2 = document.getElementById('password2');
-    const email = document.getElementById('email');// aca tienes lo del email ya hecho
-    const terminos = document.getElementById('terminos');
-    const submitButton = document.getElementById('registrarse') //aca tienes lo del boton de enviar
+  // Buscar todos los formularios que queremos validar
+  const forms = document.querySelectorAll('.needs-validation')
 
-// Validación de contraseñas en tiempo real
-password2.addEventListener('contrasenha', function () {
-    validarContrasenas();
-  });
+  // Recorremos cada formulario para evitar el envío si no es válido
+  Array.from(forms).forEach(form => {
+    const checkbox = form.querySelector('#terminos') // Seleccionar el checkbox
+    const botonTerminos = form.querySelector('[data-bs-target="#modalTerminos"]') // Seleccionar el botón de términos
+    const errorTerminos = form.querySelector('#errorterminos') // Seleccionar el mensaje de error (ID corregido)
 
-  // Validación del formulario al intentar enviarlo
-  form.addEventListener('submit', function (event) {
-    event.preventDefault(); //detiene el envio automatico
-    event.stopPropagation();// aqui se detiene para hacer solo lo que quieres que pase cuando se haga click el boton
+    // Evento cuando se intenta enviar el formulario
+    form.addEventListener('submit', event => {
+      // Evitar envío si no es válido
+      if (!form.checkValidity()) {
+        event.preventDefault()
+        event.stopPropagation()
+      }
 
-    validarContrasenas();
+      // Validar si el checkbox de términos está marcado
+      if (!checkbox.checked) {
+        botonTerminos.style.color = 'red' // Cambiar el color del botón si el checkbox no está marcado
+        errorTerminos.style.display = 'inline' // Mostrar mensaje de error
+      } else {
+        botonTerminos.style.color = '' // Restablecer el color si está marcado
+        errorTerminos.style.display = 'none' // Ocultar mensaje de error
+      }
 
-    validarTerminos();
+      // Aplicar los estilos de validación de Bootstrap
+      form.classList.add('was-validated')
+    }, false)
 
-    // Verificar si el formulario es válido completo
-    if (form.checkValidity()) {
-      alert('Sus datos han sido enviados exitosamente.');
-      form.classList.add('was-validated'); //se valida el formulario
-    } 
-  });
-
- //Ver si las contraseñas cohinciden
-  function validarContrasenas() {
-    if (password1.value !== password2.value || password2.value === '') {
-      password2.setCustomValidity('Por favor, verifique bien su contraseña');
-      password2.classList.add('is-invalid');
-      password2.classList.remove('is-valid');
-    } else {
-      password2.setCustomValidity('');
-      password2.classList.add('is-valid');
-      password2.classList.remove('is-invalid');
-    }
-  }
-
-  // para aceptar los terminos y condiciones
-  function validarTerminos() {
-    if (!terminos.checked) {
-      terminos.setCustomValidity('Debes aceptar los Términos y condiciones para poder continuar...');
-      terminos.classList.add('is-invalid');
-      terminos.classList.remove('is-valid');
-    } else {
-      terminos.setCustomValidity('');
-      terminos.classList.add('is-valid');
-      terminos.classList.remove('is-invalid');
-    }
-  }
-
-
-
-});
+    // Evento para validar en tiempo real cuando cambie el estado del checkbox
+    checkbox.addEventListener('change', () => {
+      if (checkbox.checked) {
+        botonTerminos.style.color = '' // Restablecer el color cuando se marca el checkbox
+        errorTerminos.style.display = '' // Ocultar el mensaje de error
+      } else {
+        botonTerminos.style.color = 'red' // Cambiar a rojo si se desmarca
+        errorTerminos.style.display = 'inline' // Mostrar mensaje de error
+      }
+    })
+  })
+})
