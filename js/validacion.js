@@ -1,44 +1,57 @@
+
+// me robe este js en boostrap, dile a chat gpt que te lo desglose y te lo explique bien para que lo entiendas
+
+const form = document.querySelector('.needs-validation');
+const checkbox = document.getElementById('terminos'); // para el checkbox
+const botonTerminos = form.querySelector('[data-bs-target="#modalTerminos"]'); // para el boton de terminos
+const errorTerminos = document.getElementById('errorterminos'); // para el maldito mensaje de error
+
+
 document.addEventListener("DOMContentLoaded", () => {
 
-  // Buscar todos los formularios que queremos validar
-  const forms = document.querySelectorAll('.needs-validation')
+  // cuando el formulario escuche un submit del boton registrarme
+  form.addEventListener('submit', event => {
+    // evita el envio si no es valido el formulario
+    if (!form.checkValidity()) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+    //aqui irian las funciones
+    validaCheckbox()
+    validaCheckboxTiempoReal()
+    
+    
+    // aplica los estilos de validacion de bootstrap
+    form.classList.add('was-validated');
+  });
 
-  // Recorremos cada formulario para evitar el envío si no es válido
-  Array.from(forms).forEach(form => {
-    const checkbox = form.querySelector('#terminos') // Seleccionar el checkbox
-    const botonTerminos = form.querySelector('[data-bs-target="#modalTerminos"]') // Seleccionar el botón de términos
-    const errorTerminos = form.querySelector('#errorterminos') // Seleccionar el mensaje de error (ID corregido)
 
-    // Evento cuando se intenta enviar el formulario
-    form.addEventListener('submit', event => {
-      // Evitar envío si no es válido
-      if (!form.checkValidity()) {
-        event.preventDefault()
-        event.stopPropagation()
-      }
+});
 
-      // Validar si el checkbox de términos está marcado
-      if (!checkbox.checked) {
-        botonTerminos.style.color = 'red' // Cambiar el color del botón si el checkbox no está marcado
-        errorTerminos.style.display = 'inline' // Mostrar mensaje de error
-      } else {
-        botonTerminos.style.color = '' // Restablecer el color si está marcado
-        errorTerminos.style.display = 'none' // Ocultar mensaje de error
-      }
 
-      // Aplicar los estilos de validación de Bootstrap
-      form.classList.add('was-validated')
-    }, false)
+// aqui van las funciones....lo demas te toca a ti amiga XD....SUERTE QUITANDO EL invalid-feedback del checkbox wuajajajajaa
 
-    // Evento para validar en tiempo real cuando cambie el estado del checkbox
-    checkbox.addEventListener('change', () => {
-      if (checkbox.checked) {
-        botonTerminos.style.color = '' // Restablecer el color cuando se marca el checkbox
-        errorTerminos.style.display = '' // Ocultar el mensaje de error
-      } else {
-        botonTerminos.style.color = 'red' // Cambiar a rojo si se desmarca
-        errorTerminos.style.display = 'inline' // Mostrar mensaje de error
-      }
-    })
-  })
-})
+
+function validaCheckbox() {
+  // ve si el checkbox esta marcado
+  if (!checkbox.checked) { // si no lo esta:
+    botonTerminos.style.color = 'red'; // cambiar el color del boton a rojo
+    errorTerminos.style.display = 'inline'; // supuestamente muestra el mensaje de error
+  } else {
+    botonTerminos.style.color = ''; // restablece el color si está marcado
+    errorTerminos.style.display = 'none'; // oculta el mensaje de error
+  }
+}
+
+function validaCheckboxTiempoReal() {
+  // evento que valida en tiempo real cuando el checkbox cambie
+  checkbox.addEventListener('change', () => {
+    if (checkbox.checked) {
+      botonTerminos.style.color = ''; // restablece el color cuando se marca el checkbox
+      errorTerminos.style.display = 'none'; // oculta el mensaje de error
+    } else {
+      botonTerminos.style.color = 'red'; // cambia a rojo si se desmarca
+      errorTerminos.style.display = 'inline'; // muestra mensaje de error
+    }
+  });
+}
