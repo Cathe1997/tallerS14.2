@@ -5,7 +5,7 @@ const form = document.querySelector('.needs-validation');
 const checkbox = document.getElementById('terminos'); // para el checkbox
 const botonTerminos = form.querySelector('[data-bs-target="#modalTerminos"]'); // para el boton de terminos
 const errorTerminos = document.getElementById('errorterminos'); // para el maldito mensaje de error
-
+const mostarerrorterminos = document.getElementById('mensajecheckbox')
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -25,21 +25,23 @@ document.addEventListener("DOMContentLoaded", () => {
     form.classList.add('was-validated');
   });
 
-
 });
 
 
-// aqui van las funciones....lo demas te toca a ti amiga XD....SUERTE QUITANDO EL invalid-feedback del checkbox wuajajajajaa
+// aqui van las funciones....lo demas te toca a ti amiga XD
 
 
 function validaCheckbox() {
   // ve si el checkbox esta marcado
   if (!checkbox.checked) { // si no lo esta:
     botonTerminos.style.color = 'red'; // cambiar el color del boton a rojo
-    errorTerminos.style.display = 'inline'; // supuestamente muestra el mensaje de error
+    mostarerrorterminos.innerHTML= `
+    <div class="invalid-feedback d-inline" id="errorterminos">Debes aceptar los términos y condiciones.</div>
+    ` 
   } else {
+    mostarerrorterminos.innerHTML=""
     botonTerminos.style.color = ''; // restablece el color si está marcado
-    errorTerminos.style.display = 'none'; // oculta el mensaje de error
+    
   }
 }
 
@@ -47,11 +49,14 @@ function validaCheckboxTiempoReal() {
   // evento que valida en tiempo real cuando el checkbox cambie
   checkbox.addEventListener('change', () => {
     if (checkbox.checked) {
+      mostarerrorterminos.innerHTML=""
       botonTerminos.style.color = ''; // restablece el color cuando se marca el checkbox
-      errorTerminos.style.display = 'none'; // oculta el mensaje de error
+
     } else {
       botonTerminos.style.color = 'red'; // cambia a rojo si se desmarca
-      errorTerminos.style.display = 'inline'; // muestra mensaje de error
+      mostarerrorterminos.innerHTML= `
+      <div class="invalid-feedback d-inline" id="errorterminos">Debes aceptar los términos y condiciones.</div>
+      ` 
     }
   });
 }
